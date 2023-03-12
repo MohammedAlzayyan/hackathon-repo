@@ -14,25 +14,25 @@ function Posts() {
   const [postClicked, setPostClicked] = useState({})
   const token = localStorage.getItem('token')
   const [count, setCount] = useState(0)
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await fetch(
-        'https://hakathon2023.onrender.com/api/post/list?offset=0&limit=10',
-        {
-          method: 'GET',
-          headers: {
-            // 'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
+  const fetchPosts = async (startingIndex = 0, numsOfPosts = 10) => {
+    console.log(numsOfPosts)
+    const response = await fetch(
+      `https://hakathon2023.onrender.com/api/post/list?offset=${startingIndex}&limit=${numsOfPosts}}`,
+      {
+        method: 'GET',
+        headers: {
+          // 'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-      )
-      const data = await response.json()
-      setPosts(data.data.posts)
-      setCount(data.data.count)
-    }
+      },
+    )
+    const data = await response.json()
+    setPosts(data.data.posts)
+    setCount(data.data.count)
+  }
+  useEffect(() => {
     fetchPosts()
-  }, [posts])
+  }, [])
 
   // console.log(postClicked)
 
@@ -102,9 +102,14 @@ function Posts() {
               <span>
                 <label htmlFor="number">items per page</label>
 
-                <select name="number">
-                  <option value={5}>10</option>
-                  <option value={10}>15</option>
+                <select
+                  onChange={(e) => {
+                    fetchPosts(0, e.target.value)
+                  }}
+                  name="number"
+                >
+                  <option value={10}>10</option>
+                  <option value={20}>20</option>
                 </select>
               </span>
               <span>
