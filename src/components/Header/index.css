@@ -1,0 +1,36 @@
+header {
+  padding-block: 15px;
+}
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95%;
+  margin: 0 auto;
+}
+header form {
+  flex-basis: 40%;
+}
+header .input {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+header .input input {
+  flex-grow: 1;
+  border: none;
+}
+header .input button {
+  border: none;
+  background-color: transparent;
+}
+header .user {
+  display: flex;
+  align-items: center;
+}
+header .username {
+  padding-right: 10px;
+}

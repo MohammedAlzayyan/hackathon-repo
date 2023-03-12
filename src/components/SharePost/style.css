@@ -1,0 +1,20 @@
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.btn {
+  width: 50%;
+  height: 50px;
+  border: none;
+  border-radius: 6px;
+  font-size: 20px;
+  background-color: #fff;
+}
+.btn-cancel {
+  border: 1px solid #2d65e4;
+}
+.btn-share {
+  background-color: #2b60d8;
+  color: #fff;
+}
