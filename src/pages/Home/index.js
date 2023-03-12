@@ -8,47 +8,47 @@ function Home() {
   const accessToken = localStorage.getItem('token')
 
   const navigate = useNavigate()
+  const [posts, setPosts] = useState([])
+  const [count, setCount] = useState(0)
+  const fetchPosts = async (
+    startingIndex = 0,
+    numsOfPosts = 10,
+    regex = '',
+  ) => {
+    let response = null
+    if (!regex) {
+      response = await fetch(
+        `https://hakathon2023.onrender.com/api/post/list?offset=${startingIndex}&limit=${numsOfPosts}}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      )
+    } else {
+      response = await fetch(
+        `https://hakathon2023.onrender.com/api/post/list?offset=${startingIndex}&limit=${numsOfPosts}}&regex=${regex}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        },
+      )
+    }
 
-  if (!accessToken) {
-    navigate('/sign-in')
+    const data = await response.json()
+    setPosts(data.data.posts)
+    setCount(data.data.count)
   }
-  const [myposts, setPosts] = useState([
-    {
-      name:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.',
-      image: '/post-image.png',
-    },
-    {
-      name:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.',
-      image: '/post-image.png',
-    },
-    {
-      name:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.',
-      image: '/post-image.png',
-    },
-    {
-      name:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.',
-      image: '/post-image.png',
-    },
-    {
-      name:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magni accusamus facere amet quasi, corrupti voluptatibus adipisci vitae nemo inventore quam a, odio necessitatibus vero saepe.',
-      image: '/post-image.png',
-    },
-  ])
-  const searchHandler = (key) => {
-    let filteredPosts = myposts.filter((post) => {
-      return post.name.includes(key)
-    })
-    setPosts(filteredPosts)
-  }
+
   return (
     <>
-      <Header searchHandler={searchHandler} />
-      <Posts posts={myposts} />
+      <Header fetchPosts={fetchPosts} />
+      <Posts posts={posts} fetchPosts={fetchPosts} count={count} />
     </>
   )
 }

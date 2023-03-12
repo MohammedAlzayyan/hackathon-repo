@@ -6,30 +6,13 @@ import EditPost from '../EditPost'
 import SharePost from '../SharePost'
 import Post from '../Post'
 
-function Posts() {
+function Posts({ posts, fetchPosts, count }) {
   const [showAdd, setShowAdd] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [showShare, setShowShare] = useState(false)
-  const [posts, setPosts] = useState([])
   const [postClicked, setPostClicked] = useState({})
   const token = localStorage.getItem('token')
-  const [count, setCount] = useState(0)
-  const fetchPosts = async (startingIndex = 0, numsOfPosts = 10) => {
-    console.log(numsOfPosts)
-    const response = await fetch(
-      `https://hakathon2023.onrender.com/api/post/list?offset=${startingIndex}&limit=${numsOfPosts}}`,
-      {
-        method: 'GET',
-        headers: {
-          // 'Content-Type': 'application/json',
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      },
-    )
-    const data = await response.json()
-    setPosts(data.data.posts)
-    setCount(data.data.count)
-  }
+
   useEffect(() => {
     fetchPosts()
   }, [])

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
-function Header({ searchHandler }) {
+function Header({ fetchPosts }) {
   const [searchWord, setSearchWord] = useState('')
   const token = localStorage.getItem('token')
   return (
@@ -9,7 +9,13 @@ function Header({ searchHandler }) {
       <header>
         <div className="container">
           <img className="logo" src="/logo.png" alt="logo" />
-          <form>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              console.log(searchWord)
+              fetchPosts(0, 10, searchWord)
+            }}
+          >
             <div className="input">
               <input
                 value={searchWord}
@@ -19,11 +25,7 @@ function Header({ searchHandler }) {
                 type="text"
                 placeholder="search"
               />
-              <button
-                onClick={() => {
-                  searchHandler(searchWord)
-                }}
-              >
+              <button type="submit">
                 <img src="/search.png" alt="search" />
               </button>
             </div>

@@ -18,10 +18,12 @@ header .input {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 3px;
+  outline: none;
 }
 header .input input {
   flex-grow: 1;
   border: none;
+  outline: none;
 }
 header .input button {
   border: none;
