@@ -12,11 +12,13 @@ function Posts() {
   const [showShare, setShowShare] = useState(false)
   const [posts, setPosts] = useState([])
   const [postClicked, setPostClicked] = useState({})
+  const token = localStorage.getItem('token')
+  const [count, setCount] = useState(0)
 
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(
-        'https://hakathon2023.onrender.com/api/post/list?offset=0&limit=20',
+        'https://hakathon2023.onrender.com/api/post/list?offset=0&limit=10',
         {
           method: 'GET',
           headers: {
@@ -27,6 +29,7 @@ function Posts() {
       )
       const data = await response.json()
       setPosts(data.data.posts)
+      setCount(data.data.count)
     }
     fetchPosts()
   }, [posts])
@@ -52,17 +55,21 @@ function Posts() {
       <div className="container">
         <div className="inline-flex">
           <h2>Latest Posts</h2>
-          <img
-            src="/add-icon.png"
-            alt="ddd"
-            onClick={() => setShowAdd(!showAdd)}
-          />
+          {token && (
+            <img
+              src="/add-icon.png"
+              alt="ddd"
+              onClick={() => setShowAdd(!showAdd)}
+            />
+          )}
+
           <Modal isOpened={showAdd}>
             <AddPost onClose={() => setShowAdd(false)} />
           </Modal>
         </div>
 
-        {posts &&
+        {token ? (
+          posts &&
           posts.map((post, index) => (
             <Post
               post={post}
@@ -75,7 +82,10 @@ function Posts() {
               setPostClicked={(i) => setPostClicked(i)}
               deletePost={deletePost}
             />
-          ))}
+          ))
+        ) : (
+          <h2>please login to see posts</h2>
+        )}
 
         <Modal isOpened={showEdit}>
           <EditPost
@@ -86,22 +96,23 @@ function Posts() {
         <Modal isOpened={showShare}>
           <SharePost onClose={() => setShowShare(false)} />
         </Modal>
+        {token ? (
+          <div className="navigation">
+            <div>
+              <span>
+                <label htmlFor="number">items per page</label>
 
-        <div className="navigation">
-          <div>
-            <span>
-              <label htmlFor="number">items per page</label>
-
-              <select name="number">
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={15}>15</option>
-                <option value={20}>2</option>
-              </select>
-            </span>
-            <span>1 - 10 of 16</span>
+                <select name="number">
+                  <option value={5}>10</option>
+                  <option value={10}>15</option>
+                </select>
+              </span>
+              <span>
+                1 - {posts.length} of {count}
+              </span>
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </section>
   )
