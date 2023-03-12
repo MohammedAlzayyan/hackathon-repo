@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './index.css'
 function Header({ searchHandler }) {
   const [searchWord, setSearchWord] = useState('')
+  const token = localStorage.getItem('token')
   return (
     <>
       <header>
@@ -27,7 +29,11 @@ function Header({ searchHandler }) {
             </div>
           </form>
           <div className="user">
-            <span className="username">{localStorage.getItem('name')}</span>
+            {token ? (
+              <span className="username">{localStorage.getItem('name')}</span>
+            ) : (
+              <Link to="/sign-in">Login</Link>
+            )}
             <img src="/user-icon.png" alt="ffff" />
           </div>
         </div>

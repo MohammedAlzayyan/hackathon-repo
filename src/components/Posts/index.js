@@ -16,7 +16,7 @@ function Posts() {
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(
-        'https://hakathon2023.onrender.com/api/post/list?offset=10&limit=10',
+        'https://hakathon2023.onrender.com/api/post/list?offset=0&limit=20',
         {
           method: 'GET',
           headers: {
