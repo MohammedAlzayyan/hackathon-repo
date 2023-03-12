@@ -31,7 +31,13 @@ export const Post = ({
         onClick={() => setOpenDropdown((prev) => !prev)}
         src="/three-dots.png"
         alt="three-dots"
-        style={{ cursor: 'pointer', width: '30px' }}
+        style={{
+          cursor: 'pointer',
+
+          position: 'absolute',
+          right: '10px',
+          top: '15px',
+        }}
       />
       {openDropdown && (
         <Dropdown
@@ -48,7 +54,7 @@ export const Post = ({
         <img
           src="/share.png"
           alt=""
-          style={{ cursor: 'pointer', width: '30px' }}
+          style={{ cursor: 'pointer' }}
           onClick={() => setShowShare(!showShare)}
         />
       </div>

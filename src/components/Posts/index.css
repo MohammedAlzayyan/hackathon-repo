@@ -23,7 +23,7 @@
   position: relative;
 }
 .posts .post p {
-  /* width: 80%; */
+  max-width: 80%;
   font-size: 12px;
   flex: 1;
 }
@@ -43,5 +43,5 @@
 .share {
   position: absolute;
   bottom: 15px;
-  right: 15px;
+  right: 10px;
 }
