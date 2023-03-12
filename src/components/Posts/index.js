@@ -76,7 +76,6 @@ function Posts({ posts, fetchPosts, count, setPosts }) {
         ) : (
           <h2>please login to see posts</h2>
         )}
-        {posts.length === 0 && <h2>loading</h2>}
 
         <Modal isOpened={showEdit}>
           <EditPost
