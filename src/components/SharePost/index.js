@@ -1,10 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import './style.css'
 import Card from '../CardPopUp'
+import { useNavigate } from 'react-router-dom'
 
-export const SharePost = ({ onClose }) => {
-  const [sharePost, setSharePost] = useState({ email: '', access: '' })
+export const SharePost = ({
+  onClose,
+  postClicked,
+  setPostClicked = (f) => f,
+}) => {
+  console.log(postClicked)
+  const [sharePost, setSharePost] = useState({ email: '', permission: '' })
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (postClicked) {
+      setPostClicked(postClicked)
+    }
+  })
 
   const handleInput = (e) => {
     setSharePost({
@@ -22,19 +35,21 @@ export const SharePost = ({ onClose }) => {
     }
     console.log(formData)
 
+    console.log(postClicked)
+
     const response = await fetch(
-      `https://hakathon2023.onrender.com/api/post/share/${localStorage.getItem(
-        'id',
-      )}`,
+      `https://hakathon2023.onrender.com/api/post/share/${postClicked._id}`,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: formData,
+        body: JSON.stringify(formData),
       },
     )
+    navigate(0)
+    onClose()
     console.log(response)
   }
   return (

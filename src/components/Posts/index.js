@@ -6,7 +6,7 @@ import EditPost from '../EditPost'
 import SharePost from '../SharePost'
 import Post from '../Post'
 
-function Posts({ posts, fetchPosts, count }) {
+function Posts({ posts, fetchPosts, count, setPosts }) {
   const [showAdd, setShowAdd] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [showShare, setShowShare] = useState(false)
@@ -47,7 +47,11 @@ function Posts({ posts, fetchPosts, count }) {
           )}
 
           <Modal isOpened={showAdd}>
-            <AddPost onClose={() => setShowAdd(false)} />
+            <AddPost
+              onClose={() => setShowAdd(false)}
+              setPosts={setPosts}
+              posts={posts}
+            />
           </Modal>
         </div>
 
@@ -77,7 +81,10 @@ function Posts({ posts, fetchPosts, count }) {
           />
         </Modal>
         <Modal isOpened={showShare}>
-          <SharePost onClose={() => setShowShare(false)} />
+          <SharePost
+            postClicked={postClicked}
+            onClose={() => setShowShare(false)}
+          />
         </Modal>
         {token ? (
           <div className="navigation">

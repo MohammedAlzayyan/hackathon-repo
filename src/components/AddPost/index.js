@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import Card from '../CardPopUp'
 import './style.css'
 
-export const AddPost = ({ onClose }) => {
+export const AddPost = ({ onClose, setPosts }) => {
   const [textPost, setTextPost] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
+  const navigate = useNavigate()
 
   const handleInputFile = (e) => {
     setSelectedFile(e.target.files[0])
@@ -36,6 +38,8 @@ export const AddPost = ({ onClose }) => {
         body: formData,
       },
     )
+    navigate(0)
+    onClose()
     console.log(response)
   }
 

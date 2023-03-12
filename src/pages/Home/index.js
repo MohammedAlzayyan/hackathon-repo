@@ -48,7 +48,14 @@ function Home() {
   return (
     <>
       <Header fetchPosts={fetchPosts} />
-      <Posts posts={posts} fetchPosts={fetchPosts} count={count} />
+      <Posts
+        posts={posts}
+        setPosts={(data) => {
+          setPosts(data)
+        }}
+        fetchPosts={fetchPosts}
+        count={count}
+      />
     </>
   )
 }

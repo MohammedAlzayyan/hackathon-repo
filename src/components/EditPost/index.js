@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 
 import './style.css'
 import Card from '../CardPopUp'
+import { useNavigate } from 'react-router-dom'
 
 export const EditPost = ({ onClose, postClicked }) => {
   const [textPost, setTextPost] = useState(postClicked.text)
   const [selectedFile, setSelectedFile] = useState(postClicked.image)
+  const navigate = useNavigate()
 
   // console.log(postClicked.text)
 
@@ -27,10 +29,6 @@ export const EditPost = ({ onClose, postClicked }) => {
       console.log(v)
     }
 
-    console.log(postClicked)
-
-    console.log(postClicked._id)
-
     const response = await fetch(
       `https://hakathon2023.onrender.com/api/post/update/${postClicked._id}`,
       {
@@ -42,6 +40,8 @@ export const EditPost = ({ onClose, postClicked }) => {
         body: formData,
       },
     )
+    navigate(0)
+    onClose()
     console.log(response)
   }
   return (

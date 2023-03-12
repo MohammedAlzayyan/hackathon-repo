@@ -21,7 +21,9 @@ export const Post = ({
   return (
     <div className="post">
       {!post.image ? (
-        <img src="/share.png" alt="" className="imagePost" />
+        <div className="imagePost">
+          <img src="/share.png" alt="" style={{ width: '50px' }} />
+        </div>
       ) : (
         <img src={post.image} alt="i" className="imagePost" />
       )}
@@ -50,7 +52,7 @@ export const Post = ({
           deletePost={deletePost}
         />
       )}
-      <div className="share">
+      <div className="share" onClick={() => setPostClicked(postClicked)}>
         <img
           src="/share.png"
           alt=""
