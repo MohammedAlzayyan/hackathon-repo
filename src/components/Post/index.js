@@ -14,10 +14,12 @@ export const Post = ({
   setShowShare = (f) => f,
   postClicked,
   setPostClicked = (f) => f,
+  deletePost,
 }) => {
   const [openDropdown, setOpenDropdown] = useState(false)
+  //   console.log(postClicked)
   return (
-    <div className="post" onClick={() => setPostClicked(post)}>
+    <div className="post">
       {!post.image ? (
         <img src="/share.png" alt="" className="imagePost" />
       ) : (
@@ -37,6 +39,9 @@ export const Post = ({
           setShowEdit={setShowEdit}
           openDropdown={openDropdown}
           setOpenDropdown={setOpenDropdown}
+          postClicked={postClicked}
+          setPostClicked={setPostClicked}
+          deletePost={deletePost}
         />
       )}
       <div className="share">

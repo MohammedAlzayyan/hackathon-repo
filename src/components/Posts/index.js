@@ -16,7 +16,7 @@ function Posts() {
   useEffect(() => {
     const fetchPosts = async () => {
       const response = await fetch(
-        'https://hakathon2023.onrender.com/api/post/list?offset=0&limit=10&regex=m',
+        'https://hakathon2023.onrender.com/api/post/list?offset=0&limit=10',
         {
           method: 'GET',
           headers: {
@@ -29,9 +29,23 @@ function Posts() {
       setPosts(data.data.posts)
     }
     fetchPosts()
-  }, [])
+  }, [posts])
 
-  console.log(postClicked)
+  // console.log(postClicked)
+
+  const deletePost = async (id) => {
+    const res = await fetch(
+      `https://hakathon2023.onrender.com/api/post/delete/${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          // 'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      },
+    )
+    console.log(res)
+  }
 
   return (
     <section className="posts">
@@ -57,12 +71,17 @@ function Posts() {
               setShowEdit={setShowEdit}
               showShare={showShare}
               setShowShare={setShowShare}
-              setPostClicked={setPostClicked}
+              postClicked={post}
+              setPostClicked={(i) => setPostClicked(i)}
+              deletePost={deletePost}
             />
           ))}
 
         <Modal isOpened={showEdit}>
-          <EditPost onClose={() => setShowEdit(false)} />
+          <EditPost
+            postClicked={postClicked}
+            onClose={() => setShowEdit(false)}
+          />
         </Modal>
         <Modal isOpened={showShare}>
           <SharePost onClose={() => setShowShare(false)} />

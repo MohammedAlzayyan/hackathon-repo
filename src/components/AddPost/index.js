@@ -21,10 +21,6 @@ export const AddPost = ({ onClose }) => {
     formData.append('text', textPost)
     formData.append('image', selectedFile)
 
-    // const formData = {
-    //   text: textPost,
-    //   selectedFile: selectedFile,
-    // }
     for (const v of formData.values()) {
       console.log(v)
     }

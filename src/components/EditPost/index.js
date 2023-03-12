@@ -3,9 +3,11 @@ import React, { useState } from 'react'
 import './style.css'
 import Card from '../CardPopUp'
 
-export const EditPost = ({ onClose }) => {
-  const [textPost, setTextPost] = useState('')
-  const [selectedFile, setSelectedFile] = useState(null)
+export const EditPost = ({ onClose, postClicked }) => {
+  const [textPost, setTextPost] = useState(postClicked.text)
+  const [selectedFile, setSelectedFile] = useState(postClicked.image)
+
+  // console.log(postClicked.text)
 
   const handleInputFile = (e) => {
     setSelectedFile(e.target.files[0])
@@ -18,18 +20,21 @@ export const EditPost = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const formData = {
-      text: textPost,
-      selectedFile: selectedFile,
+    const formData = new FormData()
+    formData.append('text', textPost)
+    formData.append('image', selectedFile)
+    for (const v of formData.values()) {
+      console.log(v)
     }
-    console.log(formData)
+
+    console.log(postClicked)
+
+    console.log(postClicked._id)
 
     const response = await fetch(
-      `https://hakathon2023.onrender.com/api/post/update/${localStorage.getItem(
-        'id',
-      )}`,
+      `https://hakathon2023.onrender.com/api/post/update/${postClicked._id}`,
       {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           // 'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -43,13 +48,13 @@ export const EditPost = ({ onClose }) => {
     <div>
       <Card className="container">
         <h2>Edit Post</h2>
-        <form className="formEdit">
+        <form className="formEdit" onSubmit={handleSubmit}>
           <input
             type="text"
             className="textPost"
             name="text"
             value={textPost}
-            // onChange={handleInput}
+            onChange={handleInput}
           />
 
           <button
@@ -81,7 +86,7 @@ export const EditPost = ({ onClose }) => {
                 style={{
                   display: 'none',
                 }}
-                // onChange={handleInputFile}
+                onChange={handleInputFile}
               />
               <div
                 style={{
