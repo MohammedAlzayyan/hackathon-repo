@@ -5,6 +5,7 @@ import AddPost from '../AddPost'
 import EditPost from '../EditPost'
 import SharePost from '../SharePost'
 import Post from '../Post'
+import { useNavigate } from 'react-router-dom'
 
 function Posts({ posts, fetchPosts, count, setPosts }) {
   const [showAdd, setShowAdd] = useState(false)
@@ -12,7 +13,7 @@ function Posts({ posts, fetchPosts, count, setPosts }) {
   const [showShare, setShowShare] = useState(false)
   const [postClicked, setPostClicked] = useState({})
   const token = localStorage.getItem('token')
-
+  const navigate = useNavigate()
   useEffect(() => {
     fetchPosts()
   }, [])
@@ -30,6 +31,8 @@ function Posts({ posts, fetchPosts, count, setPosts }) {
         },
       },
     )
+    navigate(0)
+
     console.log(res)
   }
 
